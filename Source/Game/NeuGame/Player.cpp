@@ -7,9 +7,14 @@
 #include "Framework/Emitter.h"
 #include "Renderer/ModelManager.h"
 
+#include <iostream>
+
+
 void Player::Update(float dt)
 {
 	Actor::Update(dt);
+
+	cooldown -= dt;
 
 	// Movement
 	float rotate = 0;
@@ -50,7 +55,11 @@ void Player::OnCollision(Actor* actor)
 {
 	if (actor->m_tag == "Enemy")
 	{
-		m_health--;
+		if (cooldown <= 0)
+		{
+			m_health--;
+			cooldown = hittimer;
+		}
 
 		m_model = lola::g_manager.Get("shipred.txt");
 

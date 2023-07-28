@@ -31,9 +31,9 @@ class Actor
 		std::string m_tag;
 
 		float m_lifespan = -1.0f;
+		bool m_destroyed = false;
 
 	protected:
-		bool m_destroyed = false;
 		std::shared_ptr<Model> m_model;
 	};
 }

@@ -89,14 +89,14 @@ void SpaceGame::Update(float dt)
 			
 			for (size_t i = 0; i < m_rounds; i++)
 			{
-				std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(lola::randomf(75.0f, 140.0f), lola::Pi, lola::Transform{ { lola::randomf((float)lola::g_renderer.GetHeight()), lola::randomf((float)lola::g_renderer.GetWidth()) }, lola::randomf(lola::TwoPi), 3.0f }, lola::g_manager.Get("enemy.txt"));
+				std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(lola::randomf(75.0f, 140.0f), lola::Pi, lola::Transform{ { lola::randomf((float)lola::g_renderer.GetHeight()), lola::randomf((float)lola::g_renderer.GetWidth()) }, lola::randomf(lola::TwoPi), 5.0f }, lola::g_manager.Get("enemy.txt"));
 				enemy->m_tag = "Enemy";
 				enemy->m_game = this;
 				m_scene->Add(move(enemy));
 			} 
 			
 			if (m_rounds % 3 == 0) {
-				std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(lola::randomf(75.0f, 140.0f), lola::Pi, lola::Transform{ { lola::randomf((float)lola::g_renderer.GetHeight()), lola::randomf((float)lola::g_renderer.GetWidth()) }, lola::randomf(lola::TwoPi), 3.0f }, lola::g_manager.Get("berserk.txt"));
+				std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(lola::randomf(75.0f, 140.0f), lola::Pi, lola::Transform{ { lola::randomf((float)lola::g_renderer.GetHeight()), lola::randomf((float)lola::g_renderer.GetWidth()) }, lola::randomf(lola::TwoPi), 5.0f }, lola::g_manager.Get("berserk.txt"));
 				enemy->m_tag = "Enemy";
 				enemy->berserk = true;
 				enemy->m_game = this;

@@ -15,8 +15,11 @@ public:
 
 private:
 	float m_speed = 0;
-	float m_health = 200;
+	float m_health = 2;
 	float m_turnRate = 0;
+
+	int cooldown = 0.0f;
+	int hittimer = 2.0f;
 
 	bool fireup = false;
 };
