@@ -1,35 +1,69 @@
-#include "Core/Random.h"
-#include "Core/FileIO.h"
-#include "Core/Memory.h"
-#include "Core/Time.h"
+#include "Core/Core.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/ModelManager.h"
+#include "Renderer/Font.h"
+#include "Renderer/Text.h"
+#include "Input/InputSystem.h"
+#include "Audio/AudioSystem.h"
+#include "Framework/Scene.h"
+#include "Player.h"
+#include "Enemy.h"
+
+#include "Renderer/Particle.h"
+#include "Renderer/ParticleSystem.h"
+#include "Framework/Emitter.h"
+
+#include "SpaceGame.h"
 
 #include <iostream>
+#include <vector>
+#include <thread>
+#include <memory>
+
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-	/*cout << lola::getFilePath() << endl;
-
+	lola::MemoryTracker::Initialize();
 	lola::seedRandom((unsigned int)time(nullptr));
-	for (int i = 0; i < 10; i++) {
-		cout << lola::random(10, 20) << endl;
-	}*/
+	lola::setFilePath("assets");
 
-	lola::g_memoryTracker.DisplayInfo();
-	int* p = new int;
-	lola::g_memoryTracker.DisplayInfo();
-	delete p;
-	lola::g_memoryTracker.DisplayInfo();
+	lola::g_renderer.Initialize();
+	lola::g_renderer.CreateWindow("CSC196", 800, 600);
 
-	lola::Time timer;
-	for (int i = 0; i < 100000; i++) {}
-	cout << timer.GetElapsedSeconds() << endl;
+	lola::g_inputSystem.Initialize();
+	lola::g_audioSystem.Initialize();
 
-	/* auto start = chrono::high_resolution_clock::now();
-	for (int i = 0; i < 100000; i++) {}
-	auto end = chrono::high_resolution_clock::now();
+	unique_ptr<SpaceGame> game = make_unique<SpaceGame>();
+	game->Initialize();
 
-	cout << chrono::duration_cast<chrono::nanoseconds>(end - start).count() << endl;*/
+	// Main Game Loop
+	bool quit = false;
+	while (!quit)
+	{
+		// Update Engine
+		lola::g_time.Tick();
+		lola::g_inputSystem.Update();
 
+		if (lola::g_inputSystem.GetKeyDown(SDL_SCANCODE_ESCAPE))
+		{
+			quit = true;
+		}
+
+		// Update Game
+		game->Update(lola::g_time.GetDeltaTime());
+		lola::g_audioSystem.Update();
+		lola::g_particleSystem.Update(lola::g_time.GetDeltaTime());
+
+		// Draw Game
+		lola::g_renderer.SetColor(0, 0, 0, 0);
+		lola::g_renderer.BeginFrame();
+		lola::g_particleSystem.Draw(lola::g_renderer);
+
+		game->Draw(lola::g_renderer);
+
+		lola::g_renderer.EndFrame();
+	}
+
+	return 0;
 }
