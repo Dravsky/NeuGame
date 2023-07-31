@@ -18,8 +18,8 @@ private:
 	float m_health = 2;
 	float m_turnRate = 0;
 
-	int cooldown = 0.0f;
-	int hittimer = 2.0f;
+	float cooldown = 0.0f;
+	float hittimer = 2.0f;
 
 	bool fireup = false;
 };
